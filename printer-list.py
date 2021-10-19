@@ -1,4 +1,5 @@
 #! ./venv3-8/bin/python3.8
+import re
 from flask import Flask, redirect, url_for, render_template, request
 from include.printJob import PrintJob
 import json
@@ -11,11 +12,11 @@ currentPrints.append(PrintJob("jarrod-Keychain", "Jarrod", "Jarrod", 1, "W5-6",)
 currentPrints.append(PrintJob("jarrod-ex1", "Jarrod", "Jarrod", 1, "M4-5", "box 1"))
 
 
-@app.route("/")
+@app.route("/finished/")
 def home():
-	return render_template("activePrints.html")
+	return render_template("completedPrints.html")
 
-@app.route("/finished", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def test():
 	
 	if request.method == "POST":
@@ -25,10 +26,15 @@ def test():
 		approverName = 	req.get("approverName")
 		printerID = 		req.get("printerID")
 		classPeriod =		req.get("classPeriod")
-
-		currentPrints.append(PrintJob(fileName, personName, approverName, printerID, classPeriod))
+		
+		newJob = PrintJob(fileName, personName, approverName, printerID, classPeriod)
+		currentPrints.append(newJob)
 	
-	return render_template("finshedPrints.html", printJobs=currentPrints)
+	return render_template("activePrints.html", printJobs=currentPrints)
+
+@app.route("/delete/<id>/", methods=["GET", "POST"])
+def delete(id):
+	return render_template("deletePrint.html", toDelete=id, printJobs=currentPrints)
 
 if __name__ == "__main__":
 	app.run()

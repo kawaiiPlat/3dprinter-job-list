@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Finishing A Print{% endblock title %}
+
+{% block content %}
+  <h1>The print's ID is {{ toDelete }}</h1>
+  <h2>Print Details:</h2>
+
+	<table class="table table-responsive mx-auto w-75 text-center table-bordered">
+		<thead>
+			<tr>
+				<th scope="col">File Name</th>
+				<th scope="col">Printed By</th>
+				<th scope="col">Approved By</th>
+				<th scope="col">Printer ID</th>
+				<th scope="col">Class Period</th>
+				<th scope="col">Where to Put</th>
+				<th scope="col">Un-Finish</th>
+
+			</tr>
+		</thead>
+
+		<tbody>
+		{% for printJob in printJobs %}
+			<tr>
+				<th scope="row">{{ printJob.fileName }}</th>
+				<td>{{ printJob.personName }}</td>
+				<td>{{ printJob.approverName }}</td>
+				<td>{{ printJob.printerID }}</td>
+				<td>{{ printJob.classPeriod }}</td>
+				<td>{{ printJob.boxToBePlacedIn }}</td>
+				<td><a href="/active/{{ printJob.req }}">un-finish</a></td>
+			
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock content %}

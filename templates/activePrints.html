@@ -1,6 +1,52 @@
 {% extends "base.html" %}
-{% block title %}Home Page{% endblock title %}
-
+{% block title %}Test page{% endblock title %}
 {% block content %}
-  <h1>Active Prints</h1>
+	<h1>Current Prints below: </h1>
+
+	<!-- https://stackoverflow.com/questions/50454472/center-bootstrap-table-with-100-width/50454546#50454546 --> 
+	<table class="table table-responsive mx-auto w-75 text-center table-bordered">
+		<thead>
+			<tr>
+				<th scope="col">File Name</th>
+				<th scope="col">Printed By</th>
+				<th scope="col">Approved By</th>
+				<th scope="col">Printer ID</th>
+				<th scope="col">Class Period</th>
+				<th scope="col">Where to Put</th>
+				<th scope="col">Finish</th>
+
+			</tr>
+		</thead>
+
+		<tbody>
+		{% for printJob in printJobs %}
+			<tr>
+				<th scope="row">{{ printJob.fileName }}</th>
+				<td>{{ printJob.personName }}</td>
+				<td>{{ printJob.approverName }}</td>
+				<td>{{ printJob.printerID }}</td>
+				<td>{{ printJob.classPeriod }}</td>
+				<td>{{ printJob.boxToBePlacedIn }}</td>
+				<td><a href="/delete/{{ printJob.timeCreated }}">Delete</a></td>
+			
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	<form action="/finished" method="POST">
+
+		<div class="form-group w-75 mx-auto">
+			<label>Username</label>
+			<input type="text" class="form-control" id="fileName" name="fileName" placeholder="Name of the file">
+			<input type="text" class="form-control" id="personName" name="personName" placeholder="Student's Name">
+			<input type="text" class="form-control" id="approverName" name="approverName" placeholder="Approver's Name">
+			<input type="text" class="form-control" id="printerID" name="printerID" placeholder="Printer ID">
+			<input type="text" class="form-control" id="classPeriod" name="classPeriod" placeholder="Class Period">
+			<input type="submit">
+
+		</div>
+	</form> 
+
+
 {% endblock content %}
