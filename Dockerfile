@@ -1,5 +1,12 @@
-FROM ubuntu:18.04
-RUN apt-get update -y && apt-get install -y python-pip python-dev && apt-get install -y git vim
-CMD ["/bin/bash"]
-WORKDIR /test_container
-VOLUME [ "/test_container" ]
+# syntax=docker/dockerfile:1
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP=printer-list.py
+ENV FLASK_ENV=development
+ENV FLASK_RUN_HOST=0.0.0.0
+
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY ./requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+CMD ["flask", "run"]

@@ -1,0 +1,13 @@
+version: "3.9"
+
+volumes:
+  source-files:
+    external: true
+
+services:
+  flask:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - source-files:/code
